@@ -7,12 +7,12 @@
 int main()
 {
     auto model = vision::models::ResNet18();
-    model->eval();
+    //model->eval();
     model->to(torch::kCUDA);
     auto worker_thread = [&model](){
         std::cout << "thread " << std::this_thread::get_id() << " start" << std::endl;
         for (int i = 0;i < 10000; ++i) {
-            auto in = torch::rand({1, 3, 10, 10});
+            auto in = torch::rand({4, 3, 10, 10});
             auto gpu_in = in.to(torch::kCUDA);
             auto gpu_out = model->forward(gpu_in);
             auto cpu_out = gpu_out.to(torch::kCPU);
